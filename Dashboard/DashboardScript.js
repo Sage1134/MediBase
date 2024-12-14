@@ -6,6 +6,8 @@ const searchButton = document.getElementById("searchButton");
 const matches = document.getElementById("matches");
 const localIP = "10.200.8.117";
 const journalsDiv = document.getElementById("journals");
+const resetButton = document.getElementById("resetButton");
+const tagInputBox = document.getElementById("searchTags");
 
 let tagsList = [];
 
@@ -342,6 +344,9 @@ searchButton.addEventListener("click", function() {
     }
 )
 
+resetButton.addEventListener("click", function() {
+    fetchPosts();
+})
 function setLocalStorageItem(key, value) {
     localStorage.setItem(key, value);
 }
