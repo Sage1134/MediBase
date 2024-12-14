@@ -48,7 +48,7 @@ input {
     border-radius: 8px;
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(60, 160, 60);
+    border-color: rgb(20, 180, 205);
 }
 
 #username {
@@ -66,8 +66,8 @@ input {
 }
 
 button {
-    background-color: rgb(80, 180, 80);
-    border-color: rgb(60, 160, 60);
+    background-color: rgb(40, 180, 215);
+    border-color: rgb(20, 180, 205);
     color: #fff;
     padding: 10px;
     border-style: solid;
@@ -88,7 +88,7 @@ button:active {
 
 a {
     font-size: 90%;
-    color: rgb(160, 200, 160);
+    color: rgb(20, 180, 205);
     text-decoration: none;
     margin: 85px;
     text-decoration: underline;
