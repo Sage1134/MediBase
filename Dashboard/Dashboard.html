@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="DashboardStyleSheet.css">
+    <title>MediBase</title>
+</head>
+
+<body>
+    <div id="head">
+        <div id="title">
+            <img src="../Images/Logo.png" alt="MEDIBASE">
+        </div>
+        <div id="nav">
+            <button id="searchButton">Search</button>
+        </div>
+        <a class="cta" href="#" id="signOutButton"><button>Sign Out</button></a>
+    </div>
+    <div id="container">
+        <div id="content">
+            <div id="journals"></div>
+            <button id="postButton">Post</button>
+    
+            <div id="postPopup" class="popup">
+                <div class="popup-content">
+                    <span class="close">X</span>
+                    <p>Create a post:</p>
+                    <input type="text" id="postTitle" placeholder="Title" maxlength="36">
+                    <input type="text" id="postDescription" placeholder="Description" maxlength="1000">
+                    <input type="text" id="postTags" placeholder="Tags (Space To Split)" maxlength="36">
+                    <button id="postSubmitBtn">Post</button>
+                    <div id="tagsContainer"></div>
+                </div>
+            </div>
+
+            <div id="searchPopup" class="popup">
+                <div class="popup-content">
+                    <span class="close">X</span>
+                    <p>Search for Posts:</p>
+                    <input type="text" id="searchTags" placeholder="Enter tags (Space to Split)" maxlength="36">
+                    <button id="searchSubmitBtn">Search</button>
+                    <div id="searchTagsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="DashboardScript.js"></script>
+</body>
+</html>

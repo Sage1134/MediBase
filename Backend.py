@@ -6,6 +6,9 @@ import asyncio
 import json
 import hashlib
 import uuid
+from gensim.models import Word2Vec
+
+matchModel = Word2Vec.load("MatchModel/MatchModel.model")
 
 load_dotenv("Vars.env")
 
@@ -29,6 +32,24 @@ async def addSessionToken(username, token):
             del sessionTokens[username]
 
     asyncio.create_task(expireToken())
+
+def determineSimilarity(w1, w2):
+    try:
+        return matchModel.wv.similarity(w1=w1, w2=w2)
+    except:
+        return 0.25
+
+def calculateMatchScore(setA, setB):
+    matchScores = []
+    for i in setA:
+        currentTermScores = []
+        for j in setB:
+            currentTermScores.append(determineSimilarity(i, j))
+        if len(currentTermScores) > 0:
+            matchScores.append(max(currentTermScores))
+    if len(matchScores) == 0:
+        return 0
+    return min((sum(matchScores) / len(matchScores)) * 1.15, 1)
 
 def getData(path):
     data = collection.find()
@@ -113,8 +134,122 @@ async def newClientConnected(client_socket):
             await register(client_socket, data)
         elif data["purpose"] == "signIn":
             await signIn(client_socket, data)
+        elif data["purpose"] == "createPost":
+            await createPost(client_socket, data)
+        elif data["purpose"] == "getPosts":
+            await getPosts(client_socket, data)
+        elif data["purpose"] == "searchPosts":
+            await searchPosts(client_socket, data)
     except:
         pass
+
+async def searchPosts(client_socket, data):
+    try:
+        sessionID = data["sessionToken"]
+        username = data["username"]
+        
+        if username in sessionTokens.keys() and sessionTokens[username] == sessionID:
+            matches = []
+            posts = getData(["Posts"]) 
+            tags = data.get("tags", []) 
+            
+            if not tags: 
+                data = {"purpose": "missingTags"}
+            elif not posts:
+                data = {"purpose": "missingPosts"}
+            else:
+                for post in posts:
+                    score = calculateMatchScore(tags, post.get("tags", [])) 
+                    if score >= 0.6:
+                        post["score"] = score
+                        matches.append(post)
+                
+                if not matches:
+                    data = {"purpose": "noMatchesFound"}
+                else:
+                    data = {"purpose": "searchSuccess", "matches": matches}
+        else:
+            data = {"purpose": "fail"}
+        
+        await client_socket.send(json.dumps(data))
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        if client_socket in connectedClients:
+            connectedClients.remove(client_socket)
+
+
+async def getPosts(client_socket, data):
+    try:
+        sessionID = data["sessionToken"]
+        username = data["username"]
+
+        if username in sessionTokens.keys() and sessionTokens[username] == sessionID:
+            currentPosts = getData(["Posts"])
+
+            if currentPosts is None:
+                currentPosts = []
+
+            data = {
+                "purpose": "fetchPostsSuccess",
+                "posts": currentPosts
+            }
+        else:
+            data = {"purpose": "fail"}
+
+        await client_socket.send(json.dumps(data))
+    except:
+        pass
+    finally:
+        connectedClients.remove(client_socket)
+    
+async def createPost(client_socket, data):
+    try:
+        sessionID = data["sessionToken"]
+        username = data["username"]
+        title = data["postTitle"]
+        description = data["postDescription"]
+        tags = data["tags"]
+        
+        if username in sessionTokens.keys():
+            if sessionTokens[username] == sessionID:
+                currentPosts = getData(["Posts"])
+                if currentPosts is None:
+                    currentPosts = []
+                
+                for i in enumerate(tags):
+                    tags[i[0]] = i[1].lower()
+                    if len(i[1]) > 36:
+                        tags[i[0]] = i[1][0:36]
+
+                uniqueTags = []
+
+                for tag in tags:
+                    if tag not in uniqueTags:
+                        uniqueTags.append(tag)
+                
+                if len(title) > 36:
+                    title = title[0:36]
+                
+                if len(description) > 1000:
+                    description = description[0:1000]
+                
+                post = {"title": title, "description": description, "tags": uniqueTags}
+               
+                currentPosts.append(post)
+                
+                setData(["Posts"], currentPosts)
+                
+                data = {"purpose": "postSuccess"}
+            else:
+                data = {"purpose": "fail"}
+        else:
+            data = {"purpose": "fail"}
+        await client_socket.send(json.dumps(data))
+    except:
+        pass
+    finally:
+        connectedClients.remove(client_socket)
 
 async def register(client_socket, data):
     try:
