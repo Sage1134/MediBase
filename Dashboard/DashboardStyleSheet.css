@@ -46,7 +46,7 @@ button {
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
-    margin-right: 2.5vw;
+    margin-right: 5vw;
     box-shadow: 0 0 8px rgba(100, 150, 255, 0.5);
 }
 
@@ -259,7 +259,7 @@ textarea {
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    margin-left: 4vw;
+    margin-left: 9vw;
 }
 
 #head img {

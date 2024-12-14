@@ -237,8 +237,8 @@ async def createPost(client_socket, data):
                 
                 for i in enumerate(tags):
                     tags[i[0]] = i[1].lower()
-                    if len(i[1]) > 36:
-                        tags[i[0]] = i[1][0:36]
+                    if len(i[1]) > 100:
+                        tags[i[0]] = i[1][0:100]
 
                 uniqueTags = []
 
@@ -246,8 +246,8 @@ async def createPost(client_socket, data):
                     if tag not in uniqueTags:
                         uniqueTags.append(tag)
                 
-                if len(title) > 36:
-                    title = title[0:36]
+                if len(title) > 100:
+                    title = title[0:100]
                 
                 if len(description) > 1000:
                     description = description[0:1000]

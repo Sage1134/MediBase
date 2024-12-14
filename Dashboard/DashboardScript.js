@@ -101,9 +101,13 @@ document.getElementById("searchSubmitBtn").addEventListener("click", function() 
                     const tagsElement = document.createElement("p");
                     tagsElement.textContent = "Tags: " + post.tags.join(", ");
 
+                    const matchScore = document.createElement("p");
+                    matchScore.textContent = "Match Score: " + (post.score * 100).toFixed(2) + "%";
+
                     postElement.appendChild(titleElement);
                     postElement.appendChild(descriptionElement);
                     postElement.appendChild(tagsElement);
+                    postElement.appendChild(matchScore);
 
                     journalsDiv.appendChild(postElement);
                 });
@@ -124,8 +128,6 @@ document.getElementById("searchSubmitBtn").addEventListener("click", function() 
         alert("Please enter some tags to search.");
     }
 });
-
-
 
 postButton.addEventListener("click", function() {
     clearTagsList();
@@ -221,6 +223,7 @@ postSubmitBtn.addEventListener("click", function() {
                 closeAllPopups();
                 clearTagsList();
                 document.getElementById("tagsContainer").innerHTML = "";
+                fetchPosts()
             } else if (data.purpose == "fail") {
                 alert("Session Invalid Or Expired");
                 window.location.href = "../SignIn/SignIn.html";
