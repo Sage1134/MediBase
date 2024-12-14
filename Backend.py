@@ -140,8 +140,26 @@ async def newClientConnected(client_socket):
             await getPosts(client_socket, data)
         elif data["purpose"] == "searchPosts":
             await searchPosts(client_socket, data)
+        elif data["purpose"] == "signOut":
+                    await signOut(client_socket, data)
     except:
         pass
+
+async def signOut(client_socket, data):
+    try:
+        sessionID = data["sessionToken"]
+        username = data["username"]
+
+        if username in sessionTokens.keys() and sessionTokens[username] == sessionID:
+            del sessionTokens[username]
+            data = {"purpose": "signOutSuccess"}
+        else:
+            data = {"purpose": "fail"}
+        await client_socket.send(json.dumps(data))
+    except:
+        pass
+    finally:
+        connectedClients.remove(client_socket)
 
 async def searchPosts(client_socket, data):
     try:

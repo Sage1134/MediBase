@@ -177,8 +177,8 @@ async function fetchPosts() {
 
                 journalsDiv.appendChild(postElement);
             });
-        } else {
-            alert("Failed to fetch posts or session expired.");
+        } else if (data.purpose == "fail") {
+            alert("Session Invalid Or Expired");
             window.location.href = "../SignIn/SignIn.html";
         }
 
@@ -341,10 +341,6 @@ searchButton.addEventListener("click", function() {
         };
     }
 )
-
-document.addEventListener("DOMContentLoaded", function() {
-    fetchPosts();
-});
 
 function setLocalStorageItem(key, value) {
     localStorage.setItem(key, value);

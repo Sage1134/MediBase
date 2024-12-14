@@ -26,7 +26,7 @@ body {
     padding: 0;
     justify-content: space-between;
     align-items: center;
-    padding: 30px, 10%;
+    padding: 0 2vw;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
@@ -46,7 +46,7 @@ button {
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
-    margin-right: 1vw;
+    margin-right: 2.5vw;
     box-shadow: 0 0 8px rgba(100, 150, 255, 0.5);
 }
 
@@ -259,12 +259,17 @@ textarea {
     padding: 10px 20px;
     border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    margin-left: 2vw;
 }
+#head img {
+    height: 7vh;
+    width: calc(15vw);
+    position: absolute;
+}
+
 
 #nav button:hover {
     color: rgb(100, 200, 255);
-    background-color: rgba(40, 40, 45); 
+    background-color: rgba(40, 40, 45);
 }
 
 #nav button:active {
