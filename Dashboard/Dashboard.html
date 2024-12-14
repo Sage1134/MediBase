@@ -12,25 +12,15 @@
     <div id="head">
         <div id="title">
             <img src="../Images/Logo.png" alt="MEDIBASE">
-            <h1 id="titleText">MediBase</h1>
         </div>
         <div id="nav">
-            <button id="browseButton">Browse</button>
-            <button id="linkButton">Search</button>
-            <button id="publishButton">Publsh</button>
+            <button id="searchButton">Search</button>
         </div>
         <a class="cta" href="#" id="signOutButton"><button>Sign Out</button></a>
     </div>
     <div id="container">
-        <div id="sideBar">
-            <h2 id="navigationHeader">Navigation</h2>
-            <button id="homeButton">Home</button>
-            <h2 id="browseHeader">Browse</h2>
-            <div id="browseSidebar"></div>
-        </div>
         <div id="content">
             <div id="journals"></div>
-            <div id="journalInfo"></div>
             <button id="postButton">Post</button>
     
             <div id="postPopup" class="popup">
@@ -48,8 +38,10 @@
             <div id="searchPopup" class="popup">
                 <div class="popup-content">
                     <span class="close">X</span>
-                    <p>Search</p>
-                    <div id="matches"></div>
+                    <p>Search for Posts:</p>
+                    <input type="text" id="searchTags" placeholder="Enter tags (Space to Split)" maxlength="36">
+                    <button id="searchSubmitBtn">Search</button>
+                    <div id="searchTagsContainer"></div>
                 </div>
             </div>
         </div>
