@@ -12,7 +12,6 @@ function signIn(event) {
         password: password,
       };
 
-    const isLocalConnection = window.location.hostname === localIP;
     const socket = new WebSocket('ws://' + localIP + ':1134');
 
     socket.onopen = function (event) {

@@ -152,7 +152,7 @@ async def signIn(client_socket, data):
             await addSessionToken(username, sessionToken)
             data = {"purpose": "success",
                 "sessionToken": sessionToken,
-                "redirect": "../dashboard/dashboard.html"}
+                "redirect": "../Dashboard/Dashboard.html"}
         else:
             data = {"purpose": "fail"}
         await client_socket.send(json.dumps(data))
